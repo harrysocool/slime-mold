@@ -53,3 +53,7 @@ for loop = 1:6
 end
 %%
 plot(data);
+
+%%
+% pos = randtop(2,2);
+% plotsom(pos)
