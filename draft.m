@@ -8,6 +8,7 @@ L = [Inf,4,12,Inf;...
 D = ones(4,4);
 Q = zeros(4,4);
 count = 1;
+I = 2;
 r = 1.8;
 
 for loop = 1:6
@@ -22,16 +23,10 @@ for loop = 1:6
         end
     end
 
-    b = [2;0;0;-2];
-    if (count <= 30)
-        a = temp(:,1:3)\b;
-        P = [a;0];  
-    else
-        a = temp\b;
-        P = a;
-    end
+    b = [I;0;0;-1*I];
+    a = temp(:,1:3)\b;
+    P = [a;0];  
  
-
     %% Calculate Q
     for i = 1:V
         for j = 1:V
