@@ -36,18 +36,20 @@ for loop = 1:20
     end
 
     %% Calculate next D
+    data(count,:) = [D(1,2),D(2,3),D(3,4),D(1,3),D(2,4)];
+    
     for i = 1:V
         for j = 1:V
             if (i ~= j)
                 slope = abs(Q(i,j))^r/(1+abs(Q(i,j))^r) - D(i,j);
-                D(i,j) = D(i,j) + slope;
+                D(i,j) = D(i,j) + 0.5*slope;
 %                 D(i,j) = 0.5*((Q(i,j)*(P(i) - P(j)))/(L(i,j)*(P(1) - P(4))) + D(i,j));
 %                 D(i,j) = abs(Q(i,j))^r/(1+abs(Q(i,j))^r) + exp(-D(i,j));
             end 
         end
     end
 
-    data(count,:) = [D(1,2),D(2,3),D(3,4),D(1,3),D(2,4)];
+    
     count = count + 1;
 end
 %%

@@ -1,7 +1,7 @@
 close all
 N = 14;
-I = 4.5;
-r = 1.4;
+I = 3.0;
+r = 1.8;
 iteration = 2;
 FS = 5;
 
