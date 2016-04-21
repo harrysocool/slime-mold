@@ -4,11 +4,10 @@ L = [Inf,4,12,Inf;...
      4,Inf,4,15;...
      12,4,Inf,5;...
      Inf,15,5,Inf];
-% P = zeros(1,4);
 D = ones(4,4);
 Q = zeros(4,4);
 count = 1;
-I = 3;
+I = 2;
 r = 1.8;
 
 for loop = 1:20
@@ -53,7 +52,3 @@ for loop = 1:20
 end
 %%
 plot(data);
-
-%%
-% pos = randtop(2,2);
-% plotsom(pos)

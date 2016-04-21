@@ -17,7 +17,7 @@ classdef network < handle
             obj.pos = pos;
             obj.matrixL = 10*dist(pos);
             
-            obj.matrixL(obj.matrixL > 10) = Inf;
+            obj.matrixL(obj.matrixL > 11) = Inf;
             obj.matrixL(obj.matrixL == 0) = Inf;
             
             obj.matrixQ = zeros(obj.V,obj.V);
@@ -72,10 +72,10 @@ classdef network < handle
             obj.matrixQ = obj.matrixD./obj.matrixL.*obj.matrixP;
         end
         
-        function calculateD(obj)
+        function calculateD(obj,st,ed)
             slope = abs(obj.matrixQ).^obj.r./(1+abs(obj.matrixQ).^obj.r) - obj.matrixD;
-            obj.matrixD = obj.matrixD + slope;
-%            D(i,j) = 0.5*((Q(i,j)*(P(i) - P(j)))/(L(i,j)*(P(1) - P(4))) + D(i,j));
+            obj.matrixD = obj.matrixD + 0.5*slope;
+%            obj.matrixD = 0.5*((obj.matrixQ.*obj.matrixP)./(obj.matrixL.*obj.matrixP(st,ed)) + obj.matrixD);
         end
     end
 end
