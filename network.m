@@ -5,6 +5,7 @@ classdef network < handle
         matrixL
         matrixD
         matrixQ
+        matrixP
         P
         I
         r
@@ -15,7 +16,10 @@ classdef network < handle
             obj.V = size(pos,2);
             obj.pos = pos;
             obj.matrixL = 10*dist(pos);
-            clearL(obj);
+            
+            obj.matrixL(obj.matrixL > 10) = Inf;
+            obj.matrixL(obj.matrixL == 0) = Inf;
+            
             obj.matrixQ = zeros(obj.V,obj.V);
             obj.matrixD = ones(obj.V,obj.V);
             obj.I = I;
@@ -23,17 +27,7 @@ classdef network < handle
         end
     end
     
-    methods
-        function clearL(obj)
-            for i = 1:obj.V
-                for j = 1:obj.V
-                    if(getL(obj,i,j) > 10)
-                        obj.matrixL(i,j) = Inf;
-                    end
-                end
-            end
-        end
-        
+    methods       
         function l = getL(obj,i,j)
             l = obj.matrixL(i,j);
         end
@@ -41,11 +35,6 @@ classdef network < handle
         function d = getD(obj,i,j)
             d = obj.matrixD(i,j);
         end  
-
-        function q = getQ(obj,i,j)
-            q = obj.matrixQ(i,j);
-        end
-        
         
         function calculateP(obj,st,ed)
             temp = zeros(obj.V,obj.V);
@@ -62,7 +51,7 @@ classdef network < handle
             b(ed) = -1*obj.I;
             temp(:,ed) = [];
             a = temp\b;
-            warning('off');
+            warning('off')
             if(ed ~= 1 && ed ~= obj.V)
                 a = [a(1:ed-1);0;a(ed:obj.V-1)];
             elseif(ed == 1)
@@ -71,28 +60,22 @@ classdef network < handle
                 a = [a;0];
             end
             obj.P = a; 
+            diffP(obj);
         end
         
+        function diffP(obj)
+            B = repmat(obj.P',obj.V,1);
+            obj.matrixP = B - B';            
+        end        
+        
         function calculateQ(obj)
-            for i = 1:obj.V
-                for j = 1:obj.V
-                    if (i ~= j)
-                        obj.matrixQ(i,j) = getD(obj,i,j)/getL(obj,i,j)*(obj.P(i) - obj.P(j));
-                    end 
-                end
-            end 
+            obj.matrixQ = obj.matrixD./obj.matrixL.*obj.matrixP;
         end
         
         function calculateD(obj)
-            for i = 1:obj.V
-                for j = 1:obj.V
-                    if (i ~= j)
-                        slope = abs(getQ(obj,i,j))^obj.r/(1+abs(getQ(obj,i,j))^obj.r) - getD(obj,i,j);
-                        obj.matrixD(i,j) = getD(obj,i,j) + slope;
-        %                 D(i,j) = 0.5*((Q(i,j)*(P(i) - P(j)))/(L(i,j)*(P(1) - P(4))) + D(i,j));
-                    end 
-                end
-            end 
+            slope = abs(obj.matrixQ).^obj.r./(1+abs(obj.matrixQ).^obj.r) - obj.matrixD;
+            obj.matrixD = obj.matrixD + slope;
+%            D(i,j) = 0.5*((Q(i,j)*(P(i) - P(j)))/(L(i,j)*(P(1) - P(4))) + D(i,j));
         end
     end
 end

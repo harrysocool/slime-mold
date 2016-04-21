@@ -8,10 +8,10 @@ L = [Inf,4,12,Inf;...
 D = ones(4,4);
 Q = zeros(4,4);
 count = 1;
-I = 2;
+I = 3;
 r = 1.8;
 
-for loop = 1:6
+for loop = 1:20
     %% Calculate P
     temp = zeros(V,V);
     for i = 1:V
