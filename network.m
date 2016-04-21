@@ -15,6 +15,7 @@ classdef network < handle
             obj.V = size(pos,2);
             obj.pos = pos;
             obj.matrixL = 10*dist(pos);
+            clearL(obj);
             obj.matrixQ = zeros(obj.V,obj.V);
             obj.matrixD = ones(obj.V,obj.V);
             obj.I = I;
@@ -23,6 +24,16 @@ classdef network < handle
     end
     
     methods
+        function clearL(obj)
+            for i = 1:obj.V
+                for j = 1:obj.V
+                    if(getL(obj,i,j) > 10)
+                        obj.matrixL(i,j) = Inf;
+                    end
+                end
+            end
+        end
+        
         function l = getL(obj,i,j)
             l = obj.matrixL(i,j);
         end
@@ -36,7 +47,7 @@ classdef network < handle
         end
         
         
-        function calculateP(obj)
+        function calculateP(obj,st,ed)
             temp = zeros(obj.V,obj.V);
             for i = 1:obj.V
                 for j = 1:obj.V
@@ -46,10 +57,20 @@ classdef network < handle
                     end 
                 end
             end
-            z = zeros(obj.V-2,1);
-            b = [obj.I;z;-1*obj.I];
-            a = temp(:,1:obj.V-1)\b;
-            obj.P = [a;0]; 
+            b = zeros(obj.V,1);
+            b(st) = obj.I;
+            b(ed) = -1*obj.I;
+            temp(:,ed) = [];
+            a = temp\b;
+            warning('off');
+            if(ed ~= 1 && ed ~= obj.V)
+                a = [a(1:ed-1);0;a(ed:obj.V-1)];
+            elseif(ed == 1)
+                a = [0;a];
+            elseif(ed == obj.V)
+                a = [a;0];
+            end
+            obj.P = a; 
         end
         
         function calculateQ(obj)
