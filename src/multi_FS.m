@@ -1,9 +1,9 @@
 close all
-N = 14;
+N = 15;
 I = 3.0;
 r = 1.8;
-iteration = 2;
-FS = 5;
+iteration = 3;
+FS = 7;
 
 pos = randtop(N,N);
 se1 = randperm(N*N,FS);
@@ -11,7 +11,7 @@ se1 = randperm(N*N,FS);
 n = network(pos,I,r);
 
 
-for loop = 1:20
+for loop = 1:15
      se2 = randperm(FS,2);
      st = se1(se2(1));
      ed = se1(se2(2));

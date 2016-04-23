@@ -1,6 +1,6 @@
 close all
 N = 15;
-I = 2.0;
+I = 2.5;
 r = 1.8;
 iteration = 30;
 st = 1;

@@ -73,8 +73,7 @@ classdef network < handle
         end
         
         function calculateD(obj,st,ed)
-            slope = abs(obj.matrixQ).^obj.r./(1+abs(obj.matrixQ).^obj.r) - obj.matrixD;
-            obj.matrixD = obj.matrixD + 0.5*slope;
+            obj.matrixD = 0.5*abs(obj.matrixQ).^obj.r./(1+abs(obj.matrixQ).^obj.r) + 0.5*obj.matrixD;
 %            obj.matrixD = 0.5*((obj.matrixQ.*obj.matrixP)./(obj.matrixL.*obj.matrixP(st,ed)) + obj.matrixD);
         end
     end
