@@ -1,18 +1,18 @@
 close all
 N = 20;
-I = 5.0;
+I = 3.0;
 r = 1.8;
 iteration = 2;
-FS = 5;
+FS = 6;
 
 pos = randtop(N,N);
 FS_idx = randperm(N*N,FS);
 
 n = network(pos,I,r);
-d = 200;
+count = 0;
 
-
-while (d>100)
+while (count<2)
+    count = 0;
     temp_idx = randperm(FS,2);
     st_idx = temp_idx(1);
     ed_idx = temp_idx(2);
@@ -52,12 +52,16 @@ while (d>100)
             set(hline(z),'Color','b','LineWidth',w{z});
         end
         pause(0.1)
-        if(ite ~= iteration)
-           clf
-        end
+        
         d2 = n.matrixD;
-        d = abs(sum(sum((d2 - d1)/d1)));
+        d = abs(sum(sum((d2 - d1))));
         display([num2str(d),' ',num2str(st_idx),' ',num2str(ed_idx)]);
+        
+        if(d>1)
+           clf
+        else
+           count = count + 1;
+        end
     end
 end
 title('Simulation Finished');
