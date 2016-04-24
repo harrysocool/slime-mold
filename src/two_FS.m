@@ -2,7 +2,7 @@ close all
 N = 15;
 I = 2.5;
 r = 1.8;
-iteration = 30;
+iteration = 40;
 st = 1;
 ed = N*N;
 
@@ -10,6 +10,7 @@ pos = randtop(N,N);
 n = network(pos,I,r);
 
 for ite = 1:iteration
+    d1 = n.matrixD;
     calculateP(n,st,ed);
     calculateQ(n);
     calculateD(n,st,ed);
@@ -38,6 +39,9 @@ for ite = 1:iteration
     if(ite ~= iteration)
        clf 
     end
+    d2 = n.matrixD;
+    d = sum(sum(d2 - d1));
+    display(d);
 end
 
 title('Simulation Finished');
