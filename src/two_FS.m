@@ -1,4 +1,3 @@
-close all
 N = 20;
 I = 2.5;
 r = 1.8;
@@ -54,4 +53,4 @@ while (1)
     display(num2str(d));
 end
 
-title('Simulation Finished');
+title('Simulation Finished','FontSize',20);

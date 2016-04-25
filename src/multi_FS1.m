@@ -1,4 +1,3 @@
-close all
 N = 20;
 I = 5.0;
 r = 1.8;
@@ -13,9 +12,11 @@ count = 0;
 
 while (count<2)
     count = 0;
-    temp_idx = randperm(FS,2);
-    st_idx = temp_idx(1);
-    ed_idx = temp_idx(2);
+    st_idx = randi(FS,1);
+    ed_idx = randi(FS,1);
+    if(ed_idx == st_idx)
+        ed_idx = randi(FS,1);
+    end
     st = FS_idx(st_idx);
     ed = FS_idx(ed_idx);
     for ite = 1:iteration
@@ -55,7 +56,7 @@ while (count<2)
         
         d2 = n.matrixD;
         d = abs(sum(sum((d2 - d1))));
-        display([num2str(d),' ',num2str(st_idx),' ',num2str(ed_idx)]);
+        display([num2str(d),'     ',num2str(st_idx),' ',num2str(ed_idx)]);
         
         if(d>1)
            clf
@@ -64,5 +65,5 @@ while (count<2)
         end
     end
 end
-title('Simulation Finished');
+title('Simulation Finished','FontSize',20);
 

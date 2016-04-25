@@ -41,8 +41,7 @@ for loop = 1:20
     for i = 1:V
         for j = 1:V
             if (i ~= j)
-                slope = abs(Q(i,j))^r/(1+abs(Q(i,j))^r) - D(i,j);
-                D(i,j) = D(i,j) + 0.5*slope;
+                D(i,j) = 0.5*abs(Q(i,j))^r/(1+abs(Q(i,j))^r) + 0.5*D(i,j);
 %                 D(i,j) = 0.5*((Q(i,j)*(P(i) - P(j)))/(L(i,j)*(P(1) - P(4))) + D(i,j));
 %                 D(i,j) = abs(Q(i,j))^r/(1+abs(Q(i,j))^r) + exp(-D(i,j));
             end 
