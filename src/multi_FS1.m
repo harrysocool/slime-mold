@@ -1,14 +1,16 @@
+close all;
 N = 20;
 I = 5.0;
 r = 1.8;
 iteration = 2;
-FS = 6;
+FS = 10;
 
 pos = randtop(N,N);
 FS_idx = randperm(N*N,FS);
 
 n = network(pos,I,r);
 count = 0;
+loop = 0;
 
 while (count<2)
     count = 0;
@@ -56,13 +58,18 @@ while (count<2)
         
         d2 = n.matrixD;
         d = abs(sum(sum((d2 - d1))));
-        display([num2str(d),'     ',num2str(st_idx),' ',num2str(ed_idx)]);
+        display([num2str(d),'     ',num2str(st_idx),' ',num2str(ed_idx),...
+            ' ',num2str(loop),' ',num2str(r)]);
         
-        if(d>1)
+        if(d>10)
            clf
-        else
+        elseif(d<1)
            count = count + 1;
         end
+    end
+    loop = loop + 1;
+    if(loop > 10)
+        r = r * (1-1/loop);
     end
 end
 title('Simulation Finished','FontSize',20);
